@@ -1,4 +1,4 @@
-require("defines")
+--require("defines")
 
 local posOut =
 {
@@ -14,41 +14,45 @@ local posOut =
 }
 local dir = { 0,0,2,6,5,2,6,4,4 }
 
-game.on_init(function()
+script.on_init(function()
 	for k,force in pairs(game.forces) do
 		if force.technologies["automation"].researched == true then
 			force.technologies["cursed-automation"].enabled = true
 		end
+		if force.technologies["logistics"].researched == true then
+			force.technologies["cursed-logistics"].enabled = true
+		end
 		if force.technologies["electronics"].researched == true then
 			force.technologies["cursed-electronics"].enabled = true
 		end
-		if force.technologies["logistics"].researched == true then
-			force.technologies["cursed-logistics"].enabled = true
+		if force.technologies["logistics-2"].researched == true then
+			force.technologies["cursed-logistics-2"].enabled = true
+			force.technologies["cursed-logistics-3"].enabled = true
 		end
 	end
 	fillGlobal()
 end)
 
-
-game.on_load(function()
+script.on_load(function()
 	fillGlobal()
 end)
 
-game.on_event(defines.events.on_built_entity, function(event)
+script.on_event(defines.events.on_built_entity, function(event)
 	if event.created_entity.name == "cursed-pa" then
-		if game.get_player(event.player_index).selected ~= nil and game.get_player(event.player_index).selected.type == "assembling-machine" then
+		local player = game.players[event.player_index]
+		if player.selected ~= nil and player.selected.type == "assembling-machine" then
 			showGuiAssembler(event)
 		end
-		game.get_player(event.player_index).insert({name="cursed-pa",count = 1})
+		player.insert({name="cursed-pa",count = 1})
 		event.created_entity.destroy()
 	elseif global.cursedPIconfig[event.created_entity.name] ~= nil then
-	local player = game.get_player(event.player_index)
+		local player = game.players[event.player_index]
 		showGui(event,player)
 	end
 end)
 
 
-game.on_event(defines.events.on_gui_click, function(event)
+script.on_event(defines.events.on_gui_click, function(event)
 	if string.sub(event.element.name,1,8) == "datosPI_" then
 		if event.element.parent.name == "tablePI1" or event.element.parent.name == "tablePI2" then
 			valButtons(event)
@@ -81,7 +85,7 @@ game.on_event(defines.events.on_gui_click, function(event)
 			parent.parent.destroy()
 		end
 	elseif string.sub(event.element.name,1,8) == "datosPA_" then
-		local player = game.get_player(event.player_index)
+		local player = game.players[event.player_index]
 		if event.element.parent.name == "tablePA" then
 			showGui(nil,player,string.sub(event.element.name,9))
 		elseif event.element.name == "datosPA_Accept" then
@@ -117,6 +121,8 @@ game.on_event(defines.events.on_gui_click, function(event)
 			end
 			global.cursedPI[player.index] = nil
 		end
+	elseif event.element.name == "framePI_5" then
+		event.element.state = true
 	end
 end)
 
@@ -137,7 +143,7 @@ function showGui(event,player,button_sel)
 	end
 	local tablePI = framePI.add({ type="table", name="tablePI", colspan = 3,style="cursed-PI-table" })
 	local tablePI1 = tablePI.add({ type="table", name="tablePI1", colspan = 3,style="cursed-PI-table" })
-	tablePI.add({ type="label", name="lbl2",caption=" --> " })
+	tablePI.add({ type="label", name="lbl2",caption="-->     " })
 	local tablePI2 = tablePI.add({ type="table", name="tablePI2", colspan = 3,style="cursed-PI-table" })
 	makeTable(tablePI1)
 	makeTable(tablePI2)
@@ -152,7 +158,7 @@ function showGui(event,player,button_sel)
 end
 
 function showGuiAssembler(event)
-	local player = game.get_player(event.player_index)
+	local player = game.players[event.player_index]
 	if player.gui.center.framePI ~= nil then
 		player.gui.center.framePI.destroy()
 	end
@@ -178,15 +184,15 @@ end
 
 function makeTable(parent,type)
 
-	parent.add({ type="checkbox", name="datosPI_1",state = false, style = "cursed-PI_hand" })
-	parent.add({ type="checkbox", name="datosPI_2",state = false, style = "cursed-PI_hand" })
-	parent.add({ type="checkbox", name="datosPI_3",state = false, style = "cursed-PI_hand" })
-	parent.add({ type="checkbox", name="datosPI_4",state = false, style = "cursed-PI_hand" })
-	parent.add({ type="checkbox", name="framePI_5",state = false, style = "cursed-PI_base" })
-	parent.add({ type="checkbox", name="datosPI_6",state = false, style = "cursed-PI_hand" })
-	parent.add({ type="checkbox", name="datosPI_7",state = false, style = "cursed-PI_hand" })
-	parent.add({ type="checkbox", name="datosPI_8",state = false, style = "cursed-PI_hand" })
-	parent.add({ type="checkbox", name="datosPI_9",state = false, style = "cursed-PI_hand" })
+	parent.add({ type="checkbox", name="datosPI_1", state = false, style = "cursed-PI-hand" })
+	parent.add({ type="checkbox", name="datosPI_2", state = false, style = "cursed-PI-hand" })
+	parent.add({ type="checkbox", name="datosPI_3", state = false, style = "cursed-PI-hand" })
+	parent.add({ type="checkbox", name="datosPI_4", state = false, style = "cursed-PI-hand" })
+	parent.add({ type="checkbox", name="framePI_5", state = true, style = "cursed-PI-base" })
+	parent.add({ type="checkbox", name="datosPI_6", state = false, style = "cursed-PI-hand" })
+	parent.add({ type="checkbox", name="datosPI_7", state = false, style = "cursed-PI-hand" })
+	parent.add({ type="checkbox", name="datosPI_8", state = false, style = "cursed-PI-hand" })
+	parent.add({ type="checkbox", name="datosPI_9", state = false, style = "cursed-PI-hand" })
 	
 end
 
@@ -198,10 +204,12 @@ function fillGlobal()
 		global.cursedPIconfig =
 		{
 			["cursed-burner-inserter"] = { ["entity"] = "cursed-burner-inserter", ["recipe"] = "cursed-burner-inserter" },
-			["cursed-basic-inserter"] = { ["entity"] = "cursed-basic-inserter", ["recipe"] = "cursed-basic-inserter" },
+			["cursed-inserter"] = { ["entity"] = "cursed-inserter", ["recipe"] = "cursed-inserter" },
 			["cursed-long-handed-inserter"] = { ["entity"] = "cursed-long-handed-inserter", ["recipe"] = "cursed-long-handed-inserter" },
-			["cursed-smart-inserter"] = { ["entity"] = "cursed-smart-inserter", ["recipe"] = "cursed-smart-inserter" },
-			["cursed-fast-inserter"] = { ["entity"] = "cursed-fast-inserter", ["recipe"] = "cursed-fast-inserter" }
+			["cursed-fast-inserter"] = { ["entity"] = "cursed-fast-inserter", ["recipe"] = "cursed-fast-inserter" },
+			["cursed-filter-inserter"] = { ["entity"] = "cursed-filter-inserter", ["recipe"] = "cursed-filter-inserter" },
+			["cursed-stack-filter-inserter"] = { ["entity"] = "cursed-stack-filter-inserter", ["recipe"] = "cursed-stack-filter-inserter" },
+			["cursed-stack-inserter"] = { ["entity"] = "cursed-stack-inserter", ["recipe"] = "cursed-stack-inserter" }
 		}
 	end
 end
