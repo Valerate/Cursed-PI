@@ -1,5 +1,5 @@
 
-	local obj = util.table.deepcopy(data.raw["recipe"]["basic-inserter"])
+	local obj = util.table.deepcopy(data.raw["recipe"]["inserter"])
 	obj.name = "cursed-pa"
 	obj.enabled = true
 	obj.ingredients = {}
