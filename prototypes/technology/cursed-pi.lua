@@ -1,5 +1,5 @@
 
-local obj = util.table.deepcopy(data.raw["technology"]["steel-processing"])
+local obj = util.table.deepcopy(data.raw["technology"]["optics"])
 obj.name = "cursed-basic-automation"
 obj.upgrade = true
 obj.icon = "__Cursed-PI__/graphics/inserter/cursed-inserter.png"
