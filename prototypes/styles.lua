@@ -20,28 +20,28 @@ data.raw["gui-style"]["default"]["cursed-PI-base"] =
 	height = 32,
 	default_background =
 	{
-		filename = "__Cursed-PI__/graphics/inserter/cursed-inserter.png",
+		filename = "__Cursed-PI__/graphics/cursed-inserter.png",
 		priority = "extra-high-no-scale",
 		width = 32,
 		height = 32
 	},
 	hovered_background =
 	{
-		filename = "__Cursed-PI__/graphics/inserter/cursed-inserter.png",
+		filename = "__Cursed-PI__/graphics/cursed-inserter.png",
 		priority = "extra-high-no-scale",
 		width = 32,
 		height = 32
 	},
 	clicked_background =
 	{
-		filename = "__Cursed-PI__/graphics/inserter/cursed-inserter.png",
+		filename = "__Cursed-PI__/graphics/cursed-inserter.png",
 		priority = "extra-high-no-scale",
 		width = 32,
 		height = 32
 	},
 	checked =
 	{
-		filename = "__Cursed-PI__/graphics/inserter/cursed-inserter.png",
+		filename = "__Cursed-PI__/graphics/cursed-inserter.png",
 		priority = "extra-high-no-scale",
 		width = 32,
 		height = 32
@@ -61,7 +61,7 @@ data.raw["gui-style"]["default"]["cursed-PI-hand"] =
 	height = 32,
 	default_background =
 	{
-		filename = "__Cursed-PI__/graphics/gui/gui1.png",
+		filename = "__Cursed-PI__/graphics/gui1.png",
 		priority = "extra-high",
 		scale = 2,
 		width = 32,
@@ -69,7 +69,7 @@ data.raw["gui-style"]["default"]["cursed-PI-hand"] =
 	},
 	hovered_background =
 	{
-		filename = "__Cursed-PI__/graphics/gui/gui1.png",
+		filename = "__Cursed-PI__/graphics/gui1.png",
 		priority = "extra-high",
 		scale = 2,
 		width = 32,
@@ -77,7 +77,7 @@ data.raw["gui-style"]["default"]["cursed-PI-hand"] =
 	},
 	clicked_background =
 	{
-		filename = "__Cursed-PI__/graphics/gui/gui1.png",
+		filename = "__Cursed-PI__/graphics/gui1.png",
 		priority = "extra-high",
 		scale = 2,
 		width = 32,
@@ -85,7 +85,7 @@ data.raw["gui-style"]["default"]["cursed-PI-hand"] =
 	},
 	checked =
 	{
-		filename = "__Cursed-PI__/graphics/inserter/cursed-inserter-hand.png",
+		filename = "__Cursed-PI__/graphics/cursed-inserter-hand.png",
 		priority = "extra-high-no-scale",
 		width = 32,
 		height = 32
