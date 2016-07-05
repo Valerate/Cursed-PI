@@ -1,31 +1,31 @@
 
 local posInOut =
 {
-	{x = -1, y = -1},
-	{x = 0, y = -1},
-	{x = 1, y = -1},
-	{x = -1, y = 0},
+	{x = -1.2, y = -1.2, d = {x = 0.4, y = 0.4} },
+	{x = 0, y = -1.2, d = {x = 0, y = 0.4}},
+	{x = 1.2, y = -1.2, d = {x = -0.4, y = 0.4}},
+	{x = -1.2, y = 0, d = {x = 0.4, y = 0}},
 	{ },
-	{x = 1, y = 0},
-	{x = -1, y = 1},
-	{x = 0, y = 1},
-	{x = 1, y = 1},
-	{x = -2, y = -2},
-	{x = -1, y = -2},
-	{x = 0, y = -2},
-	{x = 1, y = -2},
-	{x = 2, y = -2},
-	{x = -2, y = -1},
-	{x = 2, y = -1},
-	{x = -2, y = 0},
-	{x = 2, y = 0},
-	{x = -2, y = 1},
-	{x = 2, y = 1},
-	{x = -2, y = 2},
-	{x = -1, y = 2},
-	{x = 0, y = 2},
-	{x = 1, y = 2},
-	{x = 2, y = 2}
+	{x = 1.2, y = 0, d = {x = -0.4, y = 0}},
+	{x = -1.2, y = 1.2, d = {x = 0.4, y = -0.4}},
+	{x = 0, y = 1.2, d = {x = 0, y = -0.4}},
+	{x = 1.2, y = 1.2},
+	{x = -2.2, y = -2.2},
+	{x = -1.2, y = -2.2},
+	{x = 0, y = -2.2},
+	{x = 1.2, y = -2.2},
+	{x = 2.2, y = -2.2},
+	{x = -2.2, y = -1.2},
+	{x = 2.2, y = -1.2},
+	{x = -2.2, y = 0},
+	{x = 2.2, y = 0},
+	{x = -2.2, y = 1.2},
+	{x = 2.2, y = 1.2},
+	{x = -2.2, y = 2.2},
+	{x = -1.2, y = 2.2},
+	{x = 0, y = 2.2},
+	{x = 1.2, y = 2.2},
+	{x = 2.2, y = 2.2}
 }
 
 local inserters =
@@ -105,7 +105,19 @@ script.on_event(defines.events.on_gui_click, function(event)
 		if valueIn ~= nil and valueOut ~= nil then
 			local inserter = global.cursedPI[event.player_index]
 			inserter.pickup_position = {inserter.position.x + posInOut[valueIn].x,inserter.position.y + posInOut[valueIn].y}
-			inserter.drop_position = {inserter.position.x + posInOut[valueOut].x,inserter.position.y + posInOut[valueOut].y}
+			if event.element.parent["datosPI_Closer"].state then
+				if valueOut < 10 then
+					local outx = posInOut[valueOut].x - posInOut[valueOut].x / 3
+					local outy = posInOut[valueOut].y - posInOut[valueOut].y / 3
+					inserter.drop_position = {inserter.position.x + outx,inserter.position.y + outy}
+				else
+					local outx = posInOut[valueOut].x - posInOut[valueOut].x / 5.5
+					local outy = posInOut[valueOut].y - posInOut[valueOut].y / 5.5
+					inserter.drop_position = {inserter.position.x + outx,inserter.position.y + outy}
+				end
+			else
+				inserter.drop_position = {inserter.position.x + posInOut[valueOut].x,inserter.position.y + posInOut[valueOut].y}
+			end
 		end
 		global.cursedPI[event.player_index] = nil
 		parent.parent.destroy()
@@ -139,7 +151,10 @@ function showGui(event,player,button_sel)
 		tablePI.add({ type="label", name="lbl5",caption=" " })
 		tablePI.add({ type="label", name="lbl6",caption=" " })
 		tablePI.add({ type="label", name="lbl7",caption=" " })
+		tablePI.add({ type="label", name="lbl8",caption=" " })
 		tablePI.add({ type="button", name="datosPI_Accept", caption = "Accept",style="button_style" })
+		tablePI.add({ type="label", name="lbl9",caption=" " })
+		tablePI.add({ type="checkbox", name="datosPI_Closer", caption = "Closer", state = false })
 	else
 		local tablePI = framePI.add({ type="table", name="tablePI", colspan = 3,style="cursed-PI-table" })
 		local tablePI1 = tablePI.add({ type="table", name="tablePI1", colspan = 3,style="cursed-PI-table" })
@@ -150,7 +165,12 @@ function showGui(event,player,button_sel)
 		tablePI.add({ type="label", name="lbl3",caption=" " })
 		tablePI.add({ type="label", name="lbl4",caption=" " })
 		tablePI.add({ type="label", name="lbl5",caption=" " })
+		tablePI.add({ type="label", name="lbl6",caption=" " })
+		tablePI.add({ type="label", name="lbl7",caption=" " })
+		tablePI.add({ type="label", name="lbl8",caption=" " })
 		tablePI.add({ type="button", name="datosPI_Accept", caption = "Accept",style="button_style" })
+		tablePI.add({ type="label", name="lbl9",caption=" " })
+		tablePI.add({ type="checkbox", name="datosPI_Closer", caption = "Closer", state = false })
 	end
 end
 
