@@ -43,7 +43,9 @@ script.on_init(function()
 	for _,force in pairs(game.forces) do
 		for _,inserter in ipairs(inserters) do
 			local tech = force.technologies["cursed-ins-tech-"..inserter]
-			if (tech ~= nil and tech.prerequisites ~= nil) then
+			if (tech ~= nil and tech.researched) then
+				force.recipes[inserter].enabled = true
+			elseif (tech ~= nil and tech.prerequisites ~= nil) then
 				local allright = true
 				for _,prerequisite in ipairs(tech.prerequisites) do
 					if force.technologies[prerequisite].researched == false then
