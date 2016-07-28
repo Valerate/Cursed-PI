@@ -1,3 +1,4 @@
+require "config"
 
 if data.raw["item-group"]["cursed-noshow"] == nil then
 	local obj = util.table.deepcopy(data.raw["item-group"]["other"])
@@ -63,10 +64,20 @@ function cursedPI_addInserter(baseInserter)
 	end
 
 	if (baseItem ~= nil and baseRecipe ~= nil) then
-		cursedPI_addEntity(baseInserter,baseInserter,icon,nil,3,nil)
+		cursedPI_addEntity(baseInserter,baseInserter,icon,nil,(EnergyMulti),nil)
 		cursedPI_addItem(baseItem,baseInserter,icon,nil)
-		cursedPI_addRecipe(baseRecipe,baseInserter,icon,nil,3,nil)
-		if (baseTechnology ~= nil) then
+		cursedPI_addRecipe(baseRecipe,baseInserter,icon,nil,(CostMulti),nil)
+		if Replace and (baseTechnology ~= nil) then
+			
+			for i, effect in pairs(data.raw.technology[baseTechnology].effects) do
+				if effect.type == "unlock-recipe" and effect.recipe == baseInserter then
+					local index = i
+					table.remove(data.raw.technology[baseTechnology].effects, index)	
+				end
+			end
+			table.insert(data.raw["technology"][baseTechnology].effects,{type = "unlock-recipe",recipe = "cursed-ins-" .. baseInserter})			
+			
+		elseif (baseTechnology ~= nil) then
 			cursedPI_addTechnology(baseTechnology,baseInserter,icon,2)
 		end
 	else
@@ -78,6 +89,7 @@ function cursedPI_addInserter(baseInserter)
 		end
 	end
 end
+
 
 cursedPI_addInserter("burner-inserter")
 cursedPI_addInserter("fast-inserter")

@@ -1,8 +1,15 @@
+require "config"
+
 
 function cursedPI_addRecipe(base,name,icon,ingredients,ingMult,others)
 	local obj = util.table.deepcopy(data.raw["recipe"][base])
 	obj.name = "cursed-ins-" .. name
 	obj.icon = icon
+	if obj.enabled == nil or obj.enable == true then
+		if Replace then
+			data.raw["recipe"][base].enabled = false
+		end
+	end
 	if ingredients ~= nil then
 		obj.ingredients = ingredients
 	elseif ingMult ~= nil then
